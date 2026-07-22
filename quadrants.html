@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quadrants Practise (@ProductiveBhasad)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    #input-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .input-row input {
+      width: 150px;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #334155;
+      border-radius: 0.5rem;
+      background: #1e293b;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-row input:focus {
+      border-color: #6366f1;
+    }
+
+    button {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:active { transform: scale(0.97); }
+
+    #start-btn {
+      background: #6366f1;
+      color: #fff;
+    }
+
+    #start-btn:hover { background: #4f46e5; }
+
+    #scene-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .perspective-wrapper {
+      width: 300px;
+      height: 300px;
+    }
+
+    .square {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+
+    .face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 1rem;
+      backface-visibility: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .face .corner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .face.front {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .face.back,
+    .edge {
+      display: none;
+    }
+
+    .edge {
+      position: absolute;
+      width: 100%;
+      height: 40px;
+      background: rgba(99, 102, 241, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backface-visibility: visible;
+    }
+
+    .edge.top {
+      top: 0;
+      left: 0;
+      transform-origin: top center;
+      transform: rotateX(-90deg);
+    }
+
+    .edge.bottom {
+      bottom: 0;
+      left: 0;
+      transform-origin: bottom center;
+      transform: rotateX(90deg);
+    }
+
+    .face-label {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.45;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .controls button {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 0.6rem 1.4rem;
+      font-size: 1rem;
+    }
+
+    .controls button:hover {
+      background: #334155;
+    }
+
+    .front-names {
+      font-size: 1.05rem;
+      color: #a5b4fc;
+      text-align: center;
+    }
+
+    #edit-btn {
+      background: transparent;
+      color: #64748b;
+      font-size: 0.8rem;
+      border: 1px solid #334155;
+      padding: 0.35rem 0.8rem;
+    }
+
+    #edit-btn:hover { color: #e2e8f0; }
+  </style>
+</head>
+<body>
+
+  <div id="input-section">
+    <h1>Enter Four Names</h1>
+    <div class="input-row">
+      <input type="text" id="name1" placeholder="Name 1" value="Productive">
+      <input type="text" id="name2" placeholder="Name 2" value="Person 3">
+    </div>
+    <div class="input-row">
+      <input type="text" id="name3" placeholder="Name 3" value="Person 1">
+      <input type="text" id="name4" placeholder="Name 4" value="Person 2">
+    </div>
+    <button id="start-btn">Show Square</button>
+  </div>
+
+  <div id="scene-section">
+    <h1>Quadrants Practise (@ProductiveBhasad)</h1>
+
+    <div class="perspective-wrapper">
+      <div class="square" id="square">
+        <div class="face front" id="front-face">
+          <div class="corner" id="f-tl"></div>
+          <div class="corner" id="f-tr"></div>
+          <div class="corner" id="f-bl"></div>
+          <div class="corner" id="f-br"></div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="front-names" id="front-names"></div>
+
+    <div class="controls">
+      <button id="back-btn">&#8592; Rotate Back</button>
+      <button id="fwd-btn">Rotate Forward &#8594;</button>
+    </div>
+
+    <button id="edit-btn">Change Names</button>
+  </div>
+
+  <script>
+    const inputSection = document.getElementById('input-section');
+    const sceneSection = document.getElementById('scene-section');
+    const startBtn = document.getElementById('start-btn');
+    const fwdBtn = document.getElementById('fwd-btn');
+    const backBtn = document.getElementById('back-btn');
+    const editBtn = document.getElementById('edit-btn');
+    const squareEl = document.getElementById('square');
+    const frontNamesEl = document.getElementById('front-names');
+
+    let names = [];
+    let step = 0;
+
+    startBtn.addEventListener('click', init);
+    fwdBtn.addEventListener('click', function() { step++; updateScene(); });
+    backBtn.addEventListener('click', function() { step--; updateScene(); });
+    editBtn.addEventListener('click', function() {
+      sceneSection.style.display = 'none';
+      inputSection.style.display = 'flex';
+    });
+
+    function init() {
+      var n1 = document.getElementById('name1').value.trim() || 'Name 1';
+      var n2 = document.getElementById('name2').value.trim() || 'Name 2';
+      var n3 = document.getElementById('name3').value.trim() || 'Name 3';
+      var n4 = document.getElementById('name4').value.trim() || 'Name 4';
+      names = [n1, n2, n3, n4];
+
+      document.getElementById('f-tl').textContent = names[0];
+      document.getElementById('f-tr').textContent = names[1];
+      document.getElementById('f-bl').textContent = names[2];
+      document.getElementById('f-br').textContent = names[3];
+
+      step = 0;
+      squareEl.style.transition = 'none';
+      squareEl.style.transform = 'rotateZ(0deg)';
+      squareEl.offsetHeight;
+      squareEl.style.transition = '';
+
+      updateScene();
+      inputSection.style.display = 'none';
+      sceneSection.style.display = 'flex';
+    }
+
+    function updateScene() {
+      var angle = step * 90;
+      squareEl.style.transform = 'rotateZ(' + angle + 'deg)';
+
+      var counter = 'rotateZ(' + (-angle) + 'deg)';
+      document.getElementById('f-tl').style.transform = counter;
+      document.getElementById('f-tr').style.transform = counter;
+      document.getElementById('f-bl').style.transform = counter;
+      document.getElementById('f-br').style.transform = counter;
+
+      frontNamesEl.textContent = 'Showing: ' + names.join('  /  ');
+    }
+  </script>
+</body>
+</html>
