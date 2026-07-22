@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play Title Suggestions (@ProductiveBhasad)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    #title-display {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 700px;
+    }
+
+    #title-display .title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #title-display .placeholder {
+      font-size: 1.1rem;
+      color: #64748b;
+    }
+
+    button {
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      background: #6366f1;
+      color: #fff;
+    }
+
+    button:hover { background: #4f46e5; }
+    button:active { transform: scale(0.97); }
+
+    #spoiler-display {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 700px;
+    }
+
+    #spoiler-display .title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #inspiration-display {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 700px;
+    }
+
+    #inspiration-display .title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Play Title Suggestions (@ProductiveBhasad)</h1>
+
+  <div id="title-display">
+    <span class="placeholder">Click the button for a play title suggestion</span>
+  </div>
+
+  <button id="suggest-btn">Suggest a Play Title</button>
+
+  <div id="spoiler-display">
+    <span class="placeholder">Click the button for a spoiler suggestion</span>
+  </div>
+
+  <button id="spoiler-btn">Suggest a Spoiler</button>
+
+  <div id="inspiration-display">
+    <span class="placeholder">Click the button for an inspiration word</span>
+  </div>
+
+  <button id="inspiration-btn">Suggest an Inspiration Word</button>
+
+  <script>
+    const titles = [
+      "Mummy Ka Badla",
+      "Shaadi Ke Side Effects",
+      "Pyaar Ya Paisa",
+      "Chai Aur Charcha",
+      "Papa Ki Permission",
+      "Sasural Express",
+      "Bhindi Ki Kasam",
+      "Ek Tha Bandar",
+      "Bhoot Ki Shaadi",
+      "Do Dulhe Ek Dulhan",
+      "Auto Wale Ka Pyaar",
+      "Padosi Number One",
+      "Mission Golgappa",
+      "Operation Biryani",
+      "Mera Boss Alien Hai",
+      "Khatarnak Chappal",
+      "Aloo Ka Aatank",
+      "Love in Lift",
+      "WiFi Wala Ishq",
+      "Mummy vs Girlfriend",
+      "Papa On Leave",
+      "Bhains Ki Baraat",
+      "Chor Bazaar",
+      "Naagin Ka NRI Dulha",
+      "Kabootar Ki Kahani",
+      "ATM Ka Aashiq",
+      "Exam Se Pehle Shaadi",
+      "Biryani Ki Kasam",
+      "Office Mein Bhoot",
+      "Remote Ka Raaz",
+      "Ghar Ghar Ki Kahani",
+      "Jugaad Zindabad",
+      "Dil Garden Garden",
+      "Ek Aur Shaadi",
+      "Dilwale Dadi Le Jayenge",
+      "Padosan Ki Planning",
+      "Love Aaj Kal Parso",
+      "Kutta Mera Dost",
+      "Sharma Ji Ki Beti",
+      "Meri Chappal Kahan Hai",
+      "Bhai Ka Breakup",
+      "Jalebi Junction",
+      "Aunty No. 1",
+      "Pappu Ki Prem Kahani",
+      "Bhool Bhulaiyaa Mein Shaadi",
+      "Sab Moh Maya Hai",
+      "Dulha On Rent",
+      "Ghar Ka Hero",
+      "Khana Kha Ke Jana",
+      "Shaadi Cancel"
+    ];
+
+    const display = document.getElementById('title-display');
+    const button = document.getElementById('suggest-btn');
+    const spoilerDisplay = document.getElementById('spoiler-display');
+    const spoilerBtn = document.getElementById('spoiler-btn');
+    const inspirationDisplay = document.getElementById('inspiration-display');
+    const inspirationBtn = document.getElementById('inspiration-btn');
+
+    const spoilers = [
+      "Someone gets slapped.",
+      "The hero is actually the villain.",
+      "Everyone starts dancing.",
+      "Someone falls in love with the wrong person.",
+      "A ghost appears.",
+      "The police arrive.",
+      "Someone loses their memory.",
+      "The wedding gets cancelled.",
+      "The bride runs away.",
+      "The groom runs away.",
+      "Someone turns out to be an alien.",
+      "A dinosaur appears.",
+      "The house catches fire.",
+      "Someone wins the lottery.",
+      "Someone is secretly rich.",
+      "Someone is secretly poor.",
+      "A long-lost twin appears.",
+      "Everyone gets arrested.",
+      "The dog saves the day.",
+      "The cat is the mastermind.",
+      "Someone proposes.",
+      "The proposal is rejected.",
+      "The lights go out.",
+      "Someone gets locked outside.",
+      "The treasure is fake.",
+      "The treasure was under the bed.",
+      "Someone steals the food.",
+      "The cake explodes.",
+      "The phone rings at the worst time.",
+      "Someone forgets their own name.",
+      "The boss gets fired.",
+      "The intern becomes CEO.",
+      "Someone time travels.",
+      "The future changes.",
+      "It was all a dream.",
+      "It wasn't a dream.",
+      "Someone breaks into song.",
+      "Everyone has to freeze.",
+      "The villain cries.",
+      "The hero gives up.",
+      "Someone reveals a huge secret.",
+      "The secret was a lie.",
+      "The wrong person gets married.",
+      "Someone gets kidnapped.",
+      "Someone escapes jail.",
+      "A magician ruins everything.",
+      "The WiFi stops working.",
+      "The internet saves the day.",
+      "Someone becomes famous.",
+      "Someone goes viral.",
+      "Everyone switches bodies.",
+      "Nobody remembers yesterday.",
+      "A monkey steals something.",
+      "Someone eats the evidence.",
+      "Someone accidentally becomes king.",
+      "The king is an imposter.",
+      "The judge is corrupt.",
+      "The witness is asleep.",
+      "Someone is allergic to money.",
+      "A chicken solves the mystery.",
+      "The ghost is friendly.",
+      "The ghost is scared.",
+      "Someone has to sing everything.",
+      "Nobody is telling the truth.",
+      "Everybody is lying.",
+      "Someone can't stop laughing.",
+      "Everyone starts crying.",
+      "Someone becomes invisible.",
+      "Someone shrinks.",
+      "Someone becomes a superhero.",
+      "The superhero quits.",
+      "The villain apologizes.",
+      "The wrong suitcase is taken.",
+      "The train never arrives.",
+      "The flight is delayed forever.",
+      "The exam gets cancelled.",
+      "The teacher fails the student.",
+      "The student becomes the teacher.",
+      "Someone loses a shoe.",
+      "Someone finds a magic lamp.",
+      "The genie refuses to help.",
+      "A wish goes terribly wrong.",
+      "The cake is actually soap.",
+      "The food is poisoned.",
+      "The poison was ketchup.",
+      "Someone adopts a crocodile.",
+      "The crocodile is a vegetarian.",
+      "A robot falls in love.",
+      "The robot starts crying.",
+      "Someone accidentally starts a war.",
+      "Peace is declared with a hug.",
+      "Someone wins by cheating.",
+      "The referee is blind.",
+      "Someone forgets why they're there.",
+      "The map is upside down.",
+      "The passport is fake.",
+      "The villain's mom shows up.",
+      "Grandma saves everyone.",
+      "The ending happens twice.",
+      "Nobody survives... emotionally.",
+      "The audience was part of the plan.",
+      "Everyone lives happily ever after... somehow."
+    ];
+
+    function suggestSpoiler() {
+      const randomIndex = Math.floor(Math.random() * spoilers.length);
+      spoilerDisplay.innerHTML = '<span class="title">' + spoilers[randomIndex] + '</span>';
+    }
+
+    const inspirationWords = [
+      "Pyaar",
+      "Dosti",
+      "Shaadi",
+      "Barish",
+      "Safar",
+      "Kismat",
+      "Jugaad",
+      "Sapna",
+      "Yaadein",
+      "Rahasya",
+      "Jaadu",
+      "Himmat",
+      "Khushi",
+      "Gussa",
+      "Darr",
+      "Umeed",
+      "Dhoka",
+      "Sach",
+      "Jhooth",
+      "Azaadi",
+      "Parivaar",
+      "Maa",
+      "Papa",
+      "Dadi",
+      "Nani",
+      "Bachpan",
+      "School",
+      "College",
+      "Office",
+      "Boss",
+      "Chai",
+      "Samosa",
+      "Biryani",
+      "Jalebi",
+      "Maggi",
+      "Golgappa",
+      "Pizza",
+      "Coffee",
+      "Auto",
+      "Rickshaw",
+      "Train",
+      "Metro",
+      "Traffic",
+      "Airport",
+      "Gaon",
+      "Sheher",
+      "Bazaar",
+      "Mandir",
+      "Jungle",
+      "Samundar",
+      "Pahaad",
+      "Nadi",
+      "Baraf",
+      "Toofan",
+      "Bijli",
+      "Suraj",
+      "Chaand",
+      "Taare",
+      "Badal",
+      "Indradhanush",
+      "Aaina",
+      "Chaabi",
+      "Darwaza",
+      "Khidki",
+      "Ghadi",
+      "Patang",
+      "Gubbaara",
+      "Chappal",
+      "Joota",
+      "Suitcase",
+      "Camera",
+      "Phone",
+      "WiFi",
+      "Password",
+      "Instagram",
+      "Reel",
+      "Selfie",
+      "Robot",
+      "Alien",
+      "Bhoot",
+      "Chudail",
+      "Naagin",
+      "Sher",
+      "Bandar",
+      "Haathi",
+      "Kutta",
+      "Billi",
+      "Mor",
+      "Titli",
+      "Sapera",
+      "Lottery",
+      "Khazana",
+      "Adventure",
+      "Mission",
+      "Magic",
+      "Mystery",
+      "Time",
+      "Future",
+      "Past",
+      "Dil",
+      "Junoon"
+    ];
+
+    function suggestInspiration() {
+      const randomIndex = Math.floor(Math.random() * inspirationWords.length);
+      inspirationDisplay.innerHTML = '<span class="title">' + inspirationWords[randomIndex] + '</span>';
+    }
+
+    function suggestTitle() {
+      const randomIndex = Math.floor(Math.random() * titles.length);
+      display.innerHTML = '<span class="title">' + titles[randomIndex] + '</span>';
+    }
+
+    button.addEventListener('click', suggestTitle);
+    spoilerBtn.addEventListener('click', suggestSpoiler);
+    inspirationBtn.addEventListener('click', suggestInspiration);
+  </script>
+</body>
+</html>
